@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h1 class="text-2xl font-semibold mb-4 text-center">My To-Do List</h1>
+        <ul id="todo-list" class="space-y-2">
+            <li class="flex items-center justify-between border-b pb-2">
+                <span>Learn Tailwind CSS</span>
+                <button class="text-red-500 hover:text-red-700">Done</button>
+            </li>
+            <li class="flex items-center justify-between border-b pb-2">
+                <span>Push code to GitHub</span>
+                <button class="text-red-500 hover:text-red-700">Done</button>
+            </li>
+            <li class="flex items-center justify-between border-b pb-2">
+                <span>Learn basic DevOps</span>
+                <button class="text-red-500 hover:text-red-700">Done</button>
+            </li>
+        </ul>
+        <div class="mt-4">
+            <input type="text" id="new-task" class="border p-2 w-full rounded" placeholder="Add a new task">
+            <button id="add-task" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-2 w-full">Add Task</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const taskInput = document.getElementById('new-task');
+            const addButton = document.getElementById('add-task');
+            const todoList = document.getElementById('todo-list');
+
+            addButton.addEventListener('click', function() {
+                const taskText = taskInput.value.trim();
+                if (taskText !== '') {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex items-center justify-between border-b pb-2';
+                    listItem.innerHTML = `
+                        <span>${taskText}</span>
+                        <button class="text-red-500 hover:text-red-700">Done</button>
+                    `;
+                    todoList.appendChild(listItem);
+                    taskInput.value = '';
+
+                    // Add event listener to the "Done" button of the newly added task
+                    const doneButton = listItem.querySelector('button');
+                    doneButton.addEventListener('click', function() {
+                        listItem.remove();
+                    });
+                }
+            });
+
+            // Add event listeners to the initial "Done" buttons
+            const initialDoneButtons = todoList.querySelectorAll('button');
+            initialDoneButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    button.parentElement.remove();
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
